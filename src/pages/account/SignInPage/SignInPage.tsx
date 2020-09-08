@@ -22,6 +22,7 @@ import AccountService from "../../../services/AccountService";
 
 interface Props extends WithStyles<typeof useStyles> {}
 interface State {
+  username: string;
   email: string;
   password: string;
   rememberMe: boolean;
@@ -54,6 +55,7 @@ class SignInPage extends React.Component<Props, State> {
     super(props);
 
     this.state = {
+      username: "",
       email: "",
       password: "",
       rememberMe: false,
@@ -61,14 +63,14 @@ class SignInPage extends React.Component<Props, State> {
     };
   }
 
-  handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    AccountService.signIn("", "");
-  }
+    AccountService.signIn(this.state.username, this.state.password);
+  };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      [event.target.name]: event.target.value,
+      [e.target.name]: e.target.value,
     } as any);
   };
 
@@ -94,11 +96,22 @@ class SignInPage extends React.Component<Props, State> {
               margin="normal"
               required
               fullWidth
+              label="Username"
+              name="username"
+              type="text"
+              autoComplete="username"
+              autoFocus
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               label="Email Address"
               name="email"
               type="email"
               autoComplete="email"
-              autoFocus
               value={this.state.email}
               onChange={this.handleChange}
             />

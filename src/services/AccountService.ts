@@ -1,13 +1,14 @@
-import { Auth } from "@aws-amplify/auth";
+import { Auth, CognitoUser } from "@aws-amplify/auth";
 
 class AccountService {
   public async signIn(username: string, password: string) {
     try {
-      const user = await Auth.signIn(username, password);
+      const user = (await Auth.signIn(username, password)) as CognitoUser;
       console.log(user);
       return user;
     } catch (error) {
       console.log("error signing in", error);
+      throw error;
     }
   }
 

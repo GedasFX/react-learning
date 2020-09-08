@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-reactlearning-dev-182235-authRole",
+      "UnauthRoleArn": "arn:aws:iam::566331587133:role/amplify-reactlearning-dev-182235-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::566331587133:role/amplify-reactlearning-dev-182235-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-reactlearning-dev-182235-deployment",
+      "UnauthRoleName": "amplify-reactlearning-dev-182235-unauthRole",
+      "StackName": "amplify-reactlearning-dev-182235",
+      "StackId": "arn:aws:cloudformation:eu-central-1:566331587133:stack/amplify-reactlearning-dev-182235/1ee51350-f1e7-11ea-8e20-0ad75412b350",
+      "AmplifyAppId": "d2zesob5jwtmd1"
+    },
+    "categories": {
+      "auth": {
+        "reactlearningf95c48ef": {}
+      }
+    }
+  }
+}
