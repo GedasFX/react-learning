@@ -1,14 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CognitoUser } from "@aws-amplify/auth";
 
-export const accountSlice = createSlice({
+const accountSlice = createSlice({
   name: "[ACCOUNT]",
-  initialState: { user: undefined as CognitoUser | undefined },
+  initialState: {
+    user: undefined as { username: string; token: string } | undefined,
+  },
   reducers: {
-    signIn: (state, { payload }: PayloadAction<{ user: CognitoUser }>) => ({
+    signInSuccess: (
+      state,
+      action: PayloadAction<{ user: { username: string; token: string } }>
+    ) => ({
       ...state,
-      user: payload.user,
+      user: action.payload.user,
+    }),
+    signInFailure: (state) => ({
+      ...state,
     }),
     signOut: (state) => ({ ...state, user: undefined }),
   },
 });
+
+export const accountActions = accountSlice.actions;
+
+export default accountSlice;

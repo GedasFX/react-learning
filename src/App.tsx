@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import SignInPage from "./pages/account/SignInPage/SignInPage";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 
 import Amplify, { Hub } from "@aws-amplify/core";
 import { Auth, CognitoUser } from "@aws-amplify/auth";
 import awsConfig from "./aws-exports";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./store";
+import { accountActions } from "./store/account";
 
 Amplify.configure(awsConfig);
 
@@ -14,16 +17,25 @@ const theme = createMuiTheme({
   },
 });
 
-const getUser = () => Auth.currentAuthenticatedUser() as Promise<CognitoUser>;
-
 function App() {
-  console.log(Auth);
-  getUser().then((p) => console.log(p));
-
-  const [user, setUser] = useState<CognitoUser | undefined>(undefined);
+  const dispatch = useDispatch();
+  const { user } = useSelector((s: RootState) => s.account);
 
   useEffect(() => {
-    const updateUser = () => getUser().then((userData) => setUser(userData));
+    const updateUser = async () => {
+      const userData = (await Auth.currentAuthenticatedUser()) as CognitoUser;
+
+      const session = await Auth.currentSession();
+
+      dispatch(
+        accountActions.signInSuccess({
+          user: {
+            username: userData.getUsername(),
+            token: session.getAccessToken().getJwtToken(),
+          },
+        })
+      );
+    };
 
     Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
@@ -31,7 +43,7 @@ function App() {
           updateUser();
           break;
         case "signOut":
-          setUser(undefined);
+          dispatch(accountActions.signOut());
           break;
         case "cognitoHostedUI_failure":
           console.log("Sign in failure", data);
@@ -40,7 +52,7 @@ function App() {
     });
 
     updateUser();
-  }, []);
+  }, [dispatch]);
 
   return (
     <MuiThemeProvider theme={theme}>

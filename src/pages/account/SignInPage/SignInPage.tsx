@@ -16,6 +16,8 @@ import {
 import { LockOutlined } from "@material-ui/icons";
 import Copyright from "../../../components/Copyright/Copyright";
 import AccountService from "../../../services/AccountService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignInPage = () => {
-  const [user, setUser] = useState({
+  const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
@@ -48,13 +50,15 @@ const SignInPage = () => {
 
   const classes = useStyles();
 
+  const { user } = useSelector((s: RootState) => s.account);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    AccountService.signIn(user.username, user.password);
+    AccountService.signIn(formData.username, formData.password);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUser({
+    setFormData({
       [e.target.name]: e.target.value,
     } as any);
   };
@@ -79,7 +83,7 @@ const SignInPage = () => {
             type="text"
             autoComplete="username"
             autoFocus
-            value={user.username}
+            value={formData.username}
             onChange={handleChange}
           />
           <TextField
@@ -90,7 +94,7 @@ const SignInPage = () => {
             name="email"
             type="email"
             autoComplete="email"
-            value={user.email}
+            value={formData.email}
             onChange={handleChange}
           />
           <TextField
@@ -101,7 +105,7 @@ const SignInPage = () => {
             label="Password"
             type="password"
             autoComplete="current-password"
-            value={user.password}
+            value={formData.password}
             onChange={handleChange}
           />
           <FormControlLabel

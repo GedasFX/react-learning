@@ -1,5 +1,10 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { accountSlice } from "./account";
+import {
+  combineReducers,
+  configureStore,
+  ThunkAction,
+  Action,
+} from "@reduxjs/toolkit";
+import accountSlice from "./account";
 
 export const rootReducer = combineReducers({
   account: accountSlice.reducer,
@@ -18,5 +23,6 @@ if (process.env.NODE_ENV === "development" && module.hot) {
 }
 
 export type AppDispatch = typeof store.dispatch;
+export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 
 export default store;
