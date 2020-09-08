@@ -13,7 +13,9 @@
     },
     "categories": {
       "auth": {
-        "reactlearningf95c48ef": {}
+        "reactlearningf95c48ef": {
+          "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"147478961358-id68cafqathao4r87pjoumo1thc1stbi.apps.googleusercontent.com\",\"client_secret\":\"cGAbtxktDyiWwagXteGFZNYJ\"}]"
+        }
       }
     }
   }
