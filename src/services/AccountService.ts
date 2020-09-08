@@ -1,25 +1,29 @@
-import { UserManager } from "oidc-client";
+import { Auth } from "@aws-amplify/auth";
 
 class AccountService {
-  public readonly userManager = new UserManager({
-    authority: `${window.location.origin}/api`,
-    client_id: "js",
-    redirect_uri: `${window.location.origin}/oauth/signin-callback.html`,
-    post_logout_redirect_uri: `${window.location.origin}/oauth/signout-callback.html`,
-    response_type: "id_token token",
-    scope: "openid api",
+  public async signIn(username: string, password: string) {
+    try {
+      const user = await Auth.signIn(username, password);
+      console.log(user);
+      return user;
+    } catch (error) {
+      console.log("error signing in", error);
+    }
+  }
 
-    silent_redirect_uri: `${window.location.origin}/oauth/refresh-callback.html`,
-    automaticSilentRenew: true,
-
-    popupWindowFeatures:
-      "location=no,toolbar=no,width=500,height=800,left=100,top=100",
-  });
-
-  public async signIn() {
-    const u = await this.userManager.signinPopup();
-    console.log(u);
-    return u;
+  public async signUp(username: string, password: string, email: string) {
+    try {
+      const { user } = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,
+        },
+      });
+      console.log(user);
+    } catch (error) {
+      console.log("error signing up:", error);
+    }
   }
 }
 

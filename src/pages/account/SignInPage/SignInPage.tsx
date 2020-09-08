@@ -21,6 +21,12 @@ import Copyright from "../../../components/Copyright/Copyright";
 import AccountService from "../../../services/AccountService";
 
 interface Props extends WithStyles<typeof useStyles> {}
+interface State {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+  loading: boolean;
+}
 
 const useStyles = (theme: Theme) =>
   createStyles({
@@ -43,10 +49,28 @@ const useStyles = (theme: Theme) =>
     },
   });
 
-class SignInPage extends React.Component<Props> {
-  onSubmit() {
-    AccountService.signIn();
+class SignInPage extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      email: "",
+      password: "",
+      rememberMe: false,
+      loading: false,
+    };
   }
+
+  handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    AccountService.signIn("", "");
+  }
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      [event.target.name]: event.target.value,
+    } as any);
+  };
 
   render() {
     const { classes } = this.props;
@@ -61,16 +85,22 @@ class SignInPage extends React.Component<Props> {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate onSubmit={this.onSubmit}>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={this.handleSubmit}
+          >
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
               label="Email Address"
               name="email"
+              type="email"
               autoComplete="email"
               autoFocus
+              value={this.state.email}
+              onChange={this.handleChange}
             />
             <TextField
               margin="normal"
@@ -79,8 +109,9 @@ class SignInPage extends React.Component<Props> {
               name="password"
               label="Password"
               type="password"
-              id="password"
               autoComplete="current-password"
+              value={this.state.password}
+              onChange={this.handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
