@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   makeStyles,
   Typography,
@@ -12,26 +12,26 @@ import {
   Button,
   Grid,
   Box,
-} from "@material-ui/core";
-import { LockOutlined } from "@material-ui/icons";
-import Copyright from "../../../components/Copyright/Copyright";
-import AccountService from "../../../services/AccountService";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+} from '@material-ui/core';
+import { LockOutlined } from '@material-ui/icons';
+import Copyright from '../../../../components/Copyright/Copyright';
+import AccountService from '../../../../services/AccountService';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -39,11 +39,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignInPage = () => {
+export default () => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
     rememberMe: false,
     loading: false,
   });
@@ -141,5 +141,3 @@ const SignInPage = () => {
     </Container>
   );
 };
-
-export default SignInPage;
