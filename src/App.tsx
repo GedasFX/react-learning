@@ -1,21 +1,16 @@
 import React, { useEffect } from "react";
 import SignInPage from "./pages/account/SignInPage/SignInPage";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
-
+import { ThemeProvider } from "@material-ui/core";
 import Amplify, { Hub } from "@aws-amplify/core";
 import { Auth, CognitoUser } from "@aws-amplify/auth";
 import awsConfig from "./aws-exports";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
 import { accountActions } from "./store/account";
+import GlobalStyles from "./layout/GlobalStyles";
+import theme from "./theme";
 
 Amplify.configure(awsConfig);
-
-const theme = createMuiTheme({
-  palette: {
-    type: "dark",
-  },
-});
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +19,6 @@ function App() {
   useEffect(() => {
     const updateUser = async () => {
       const userData = (await Auth.currentAuthenticatedUser()) as CognitoUser;
-
       const session = await Auth.currentSession();
 
       dispatch(
@@ -55,7 +49,8 @@ function App() {
   }, [dispatch]);
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <div>
         <p>User: {user ? JSON.stringify(user) : "None"}</p>
         {user ? (
@@ -67,7 +62,7 @@ function App() {
         )}
       </div>
       <SignInPage />
-    </MuiThemeProvider>
+    </ThemeProvider>
   );
 }
 
