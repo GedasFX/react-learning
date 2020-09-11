@@ -3,8 +3,8 @@ import {
   configureStore,
   ThunkAction,
   Action,
-} from "@reduxjs/toolkit";
-import accountSlice from "./account";
+} from '@reduxjs/toolkit';
+import accountSlice from './account';
 
 export const rootReducer = combineReducers({
   account: accountSlice.reducer,
@@ -15,9 +15,9 @@ const store = configureStore({
   reducer: rootReducer,
 });
 
-if (process.env.NODE_ENV === "development" && module.hot) {
-  module.hot.accept("./index", () => {
-    const newRootReducer = require("./index").rootReducer;
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./index', () => {
+    const newRootReducer = require('./index').rootReducer;
     store.replaceReducer(newRootReducer);
   });
 }

@@ -14,10 +14,8 @@ import {
   Box,
 } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
-import Copyright from '../../../../components/Copyright/Copyright';
+import Copyright from '../../../../components/Copyright';
 import AccountService from '../../../../services/AccountService';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../store';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,8 +47,6 @@ export default () => {
   });
 
   const classes = useStyles();
-
-  const { user } = useSelector((s: RootState) => s.account);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
