@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store';
-import { Auth } from 'aws-amplify';
+import Auth from '@aws-amplify/auth';
 import { Button } from '@material-ui/core';
 
 export default () => {

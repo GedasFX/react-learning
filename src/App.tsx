@@ -3,9 +3,12 @@ import { ThemeProvider, makeStyles } from '@material-ui/core';
 import theme from './theme';
 import { useRoutes } from 'react-router-dom';
 import routes from './routes';
-import { Auth, Hub } from 'aws-amplify';
+
 import { useDispatch } from 'react-redux';
 import { accountActions } from './store/account';
+
+import { Hub } from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
 
 const useStyles = makeStyles(() => ({
   '@global': {

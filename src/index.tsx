@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker';
 
 import { BrowserRouter } from 'react-router-dom';
 
-import Amplify from 'aws-amplify';
+import Amplify from '@aws-amplify/core';
 import awsConfig from './aws-exports';
 
 import { Provider as ReduxProvider } from 'react-redux';

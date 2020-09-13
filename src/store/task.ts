@@ -1,26 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GetTaskQuery, ListTasksQuery } from '../API';
+import { ListTasksQuery } from '../API';
 import { AppThunk } from '.';
-import { API } from 'aws-amplify';
+import API, { GraphQLResult } from '@aws-amplify/api';
 import { listTasks } from '../graphql/queries';
+import { Task } from '../models';
 
 const taskSlice = createSlice({
   name: '[TASK]',
   initialState: {
-    tasks: [] as GetTaskQuery[],
+    tasks: [] as Task[],
     loading: false,
   },
   reducers: {
     getTasks: (state) => ({ ...state, loading: true }),
-    getTasksSuccess: (
-      state,
-      action: PayloadAction<{ tasks: GetTaskQuery[] }>
-    ) => ({
+    getTasksSuccess: (state, action: PayloadAction<{ tasks: Task[] }>) => ({
       ...state,
       tasks: action.payload.tasks,
     }),
 
-    operationFailure: (state, action) => ({ ...state, ...action.payload }),
+    execFailure: (state, action) => ({ ...state, ...action.payload }),
   },
 });
 
@@ -29,11 +27,20 @@ export const taskThunkActions = {
   getTasks: (): AppThunk => async (dispatch) => {
     dispatch(taskActions.getTasks());
 
-    const tasks: GraphQLResult<ListTasksQuery> = await API.graphql({
-      query: listTasks,
-    });
+    try {
+      const gqlResult = (await API.graphql({
+        query: listTasks,
+      })) as GraphQLResult<ListTasksQuery>;
+
+      dispatch(
+        taskActions.getTasksSuccess({
+          tasks: gqlResult.data?.listTasks?.items as any,
+        })
+      );
+    } catch (e) {
+      dispatch(taskActions.execFailure(e));
+    }
   },
 };
 
-export type d = typeof taskSlice.actions;
 export default taskSlice;

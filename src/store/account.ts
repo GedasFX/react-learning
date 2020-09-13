@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '.';
-import { Hub, Auth } from 'aws-amplify';
+
+import { Hub } from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
 
 const accountSlice = createSlice({
   name: '[ACCOUNT]',
@@ -59,7 +61,7 @@ export const accountThunkActions = {
       }
     });
 
-    // Maybe user is already logged in? If so 
+    // Maybe user is already logged in? If so
     handleLoginSuccess();
   },
 };
