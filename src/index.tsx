@@ -2,19 +2,26 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Provider } from 'react-redux';
-import Store from './store';
+
 import { BrowserRouter } from 'react-router-dom';
+
+import Amplify from 'aws-amplify';
+import awsConfig from './aws-exports';
+
+import { Provider as ReduxProvider } from 'react-redux';
+import Store from './store';
+
+Amplify.configure(awsConfig);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={Store}>
+    <ReduxProvider store={Store}>
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
           <App />
         </Suspense>
       </BrowserRouter>
-    </Provider>
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

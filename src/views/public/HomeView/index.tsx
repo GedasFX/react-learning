@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../../store';
-import Auth from '@aws-amplify/auth';
+import { AppState } from '../../../store';
+import { Hub, Auth } from 'aws-amplify';
 import { Button } from '@material-ui/core';
 import { accountActions } from '../../../store/account';
-import { Hub } from '@aws-amplify/core';
 
 export default () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((s: RootState) => s.account);
+  const { user } = useSelector((s: AppState) => s.account);
 
   useEffect(() => {
     const updateUser = async () => {

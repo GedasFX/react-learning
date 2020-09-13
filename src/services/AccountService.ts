@@ -1,4 +1,4 @@
-import { Auth, CognitoUser } from "@aws-amplify/auth";
+import { Auth, CognitoUser } from '@aws-amplify/auth';
 
 class AccountService {
   public async signIn(username: string, password: string) {
@@ -7,7 +7,7 @@ class AccountService {
       console.log(user);
       return user;
     } catch (error) {
-      console.log("error signing in", error);
+      console.log('error signing in', error);
       throw error;
     }
   }
@@ -23,7 +23,7 @@ class AccountService {
       });
       console.log(user);
     } catch (error) {
-      console.log("error signing up:", error);
+      console.log('error signing up:', error);
     }
   }
 }

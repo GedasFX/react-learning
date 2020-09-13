@@ -1,12 +1,8 @@
 import React from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/core';
-import Amplify from '@aws-amplify/core';
-import awsConfig from './aws-exports';
 import theme from './theme';
 import { useRoutes } from 'react-router-dom';
 import routes from './routes';
-
-Amplify.configure(awsConfig);
 
 const useStyles = makeStyles(() => ({
   '@global': {
@@ -35,7 +31,6 @@ const useStyles = makeStyles(() => ({
     },
   },
 }));
-
 function App() {
   const routing = useRoutes(routes);
   useStyles();
