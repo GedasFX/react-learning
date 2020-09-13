@@ -7,6 +7,7 @@ import Layout from './_Layout';
 import HomeView from './HomeView';
 
 import LoginView from './account/LoginView';
+import TasksView from './TasksView';
 
 const routes: PartialRouteObject[] = [
   {
@@ -15,6 +16,10 @@ const routes: PartialRouteObject[] = [
       {
         path: '/',
         element: <HomeView />,
+      },
+      {
+        path: 'tasks',
+        element: <TasksView />,
       },
       {
         path: 'account',

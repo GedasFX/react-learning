@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/core';
 import theme from './theme';
 import { useRoutes } from 'react-router-dom';
 import routes from './routes';
+import { Auth, Hub } from 'aws-amplify';
+import { useDispatch } from 'react-redux';
+import { accountActions } from './store/account';
 
 const useStyles = makeStyles(() => ({
   '@global': {
@@ -34,6 +37,47 @@ const useStyles = makeStyles(() => ({
 function App() {
   const routing = useRoutes(routes);
   useStyles();
+
+  const dispatch = useDispatch();
+
+  // Authentication
+  useEffect(() => {
+    const handleLoginSuccess = async () => {
+      const userData = await Auth.currentAuthenticatedUser();
+      const session = await Auth.currentSession();
+
+      dispatch(
+        accountActions.loginSuccess({
+          user: {
+            username: userData.getUsername(),
+            token: session.getAccessToken().getJwtToken(),
+          },
+        })
+      );
+    };
+
+    // Setup Auth changes listener.
+    const authListener = Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'cognitoHostedUI':
+          handleLoginSuccess();
+          break;
+        case 'cognitoHostedUI_failure':
+          console.log('Sign in failure', data);
+          dispatch(accountActions.loginFailure());
+          break;
+        case 'signOut':
+          dispatch(accountActions.logout());
+          break;
+      }
+    });
+
+    // Maybe user is already logged in? If so, the user should be logged in from the get-go.
+    handleLoginSuccess();
+    return () => {
+      Hub.remove('auth', authListener);
+    };
+  }, [dispatch]);
 
   return <ThemeProvider theme={theme}>{routing}</ThemeProvider>;
 }
