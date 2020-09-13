@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "reactlearning",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authreactlearningf95c48ef",
+            "Outputs.UserPoolId"
+        ]
+    }
+}
