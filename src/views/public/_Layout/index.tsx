@@ -1,11 +1,12 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+import Navbar from './Navbar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.default,
-    display: 'flex',
     height: '100%',
     overflow: 'hidden',
     width: '100%',
@@ -33,6 +34,7 @@ export default () => {
 
   return (
     <div className={classes.root}>
+      <Navbar />
       <div className={classes.wrapper}>
         <div className={classes.contentContainer}>
           <div className={classes.content}>
